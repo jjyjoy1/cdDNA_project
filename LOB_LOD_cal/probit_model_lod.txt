@@ -1,0 +1,31 @@
+Probit Model for Limit of Detection (LoD) Calculation in NGS Pipelines
+
+Using a probit model to determine the Limit of Detection (LoD) is a more rigorous and statistically sound approach compared to basic standard deviation-based methods. The probit regression model is particularly useful when LoD is defined based on the probability of detection at different concentrations of the target analyte. This method is widely used in NGS assay validation to ensure a precise and reproducible LoD determination.
+1. What is a Probit Model?
+
+A probit regression model is a type of generalized linear model (GLM) used for binary response data. It models the probability of detection as a function of the target concentration.
+
+In the context of NGS-based assay validation, the probit model:
+
+    Estimates the probability of detecting a variant at different known input concentrations.
+    Fits a sigmoid curve (cumulative normal distribution) to model the probability of detection.
+    Allows estimation of LoD as the concentration at which the probability of detection reaches a defined threshold (typically 95%).
+
+Interpretation of Results
+
+    The probit model outputs an LoD value, which is the minimum variant allele frequency (VAF) percentage that achieves 95% probability of detection.
+    This LoD is a statistically rigorous threshold for determining true-positive low-frequency variants in an NGS-based assay.
+    The probit method avoids overestimation or underestimation of LoD due to outlier effects.
+
+Summary
+Method	Approach	Pros	Cons
+Standard Deviation (LoD = LoB + 1.645σ)	Uses noise distribution to estimate LoD	Simple, easy to compute	Less accurate, does not handle binary detection
+
+Probit Regression (LoD = 95% detection probability)	Models probability of detection using logistic-like regression	Statistically robust, recommended for regulatory submissions	Requires multiple replicates and computational modeling
+
+****
+Probit modeling is the preferred approach for calculating LoD in NGS pipelines.
+It provides a rigorous, probabilistic determination of the minimum detectable concentration.
+It is widely accepted by regulatory agencies (FDA, CLIA, CAP) for LDT and NDA validation.
+
+

@@ -1,0 +1,113 @@
+cfDNA Detection Roadmap
+
+1. Wet Lab Workflow
+A. Sample Collection and cfDNA Extraction
+Blood Collection:
+Collect blood using cfDNA-stabilizing tubes (e.g., Streck tubes or EDTA tubes) to minimize genomic DNA contamination.
+Plasma Separation:
+Centrifuge blood promptly to separate plasma from blood cells.
+cfDNA Extraction:
+Use a cfDNA extraction kit (e.g., Qiagen QIAamp Circulating Nucleic Acid Kit) to isolate cfDNA.
+Quantify and assess quality using Qubit, Bioanalyzer, or TapeStation.
+Key Consideration: Ensure minimal contamination from high molecular weight genomic DNA.
+
+B. End Repair and A-Tailing (if required)
+End Polishing:
+Depending on the extraction method and cfDNA quality, perform end repair and A-tailing to create compatible ends for adapter ligation.
+This step is often integrated in commercial kits for cfDNA library prep.
+
+C. First PCR – UMI and Partial Index Incorporation
+Primer Design:
+Design primers that include:
+A Unique Molecular Identifier (UMI) (typically a random sequence of 8–12 nucleotides).
+A partial index sequence (often added in reverse complement) that will later be completed in the second PCR.
+PCR Amplification:
+Perform the first PCR directly on the cfDNA, which amplifies target regions (or the whole library) and simultaneously tags each molecule with a UMI.
+Optimization Tip: Minimize cycle numbers to avoid over-amplification and maintain library complexity.
+
+D. Second PCR – Full Adapter and Index Addition
+Index Completion:
+Use primers that complete the full sequencing adapter structure and add the remaining index sequences.
+Amplification:
+Perform the second PCR to enrich the library.
+Optimize the cycle number to prevent amplification bias.
+Cleanup and Size Selection:
+Purify the final library using magnetic beads (e.g., AMPure XP) and perform size selection to obtain the desired fragment size (typically 150–250 bp insert plus adapters).
+
+E. Library Quality Control and Sequencing
+QC of Final Library:
+Check library concentration (Qubit) and fragment size distribution (Bioanalyzer/TapeStation).
+Sequencing:
+Sequence the library on a suitable platform (e.g., Illumina) with a read configuration that allows one read to capture the cfDNA fragment and another to capture the UMI and index information.
+
+F. Assay Evaluation – LOB/LOD/LOQ and Validation
+Spike-In Controls:
+Incorporate external spike-ins (e.g., synthetic cfDNA standards) at known concentrations.
+Calculate LOB (Limit of Blank):
+Process blank (no target cfDNA) samples to establish the background noise level.
+Determine LOD (Limit of Detection):
+Identify the lowest spike-in concentration reliably distinguished from the LOB.
+Determine LOQ (Limit of Quantification):
+Establish the lowest concentration at which quantification is accurate (with acceptable precision, e.g., low CV).
+Replicates and Controls:
+Run technical and biological replicates.
+Validate key parameters (e.g., UMI efficiency, duplicate rates) across replicates.
+Documentation:
+Record all QC metrics (e.g., extraction yield, PCR efficiency, library complexity) for future troubleshooting and standardization.
+
+2. Dry Lab (Bioinformatics) Workflow
+A. Raw Data Processing and QC
+Initial Quality Check:
+Use tools like FastQC to assess base quality, adapter content, and read length distributions.
+Adapter and UMI Extraction:
+Trim adapters and extract UMI sequences from reads using tools or custom scripts.
+Ensure that UMI sequences are correctly identified and stored in the read headers or tags for downstream analysis.
+
+B. Alignment and Mapping
+Mapping Reads:
+Align reads to the reference genome using an aligner like BWA-MEM or other suitable aligners.
+Retain UMI and mapping coordinate information in the alignment files.
+Considerations for cfDNA:
+Due to the fragmented nature of cfDNA, optimize alignment parameters for shorter, potentially variable-length fragments.
+
+C. UMI-based Deduplication and Consensus Building
+Deduplication:
+Group reads by mapping coordinates and UMI to collapse PCR duplicates.
+Use dedicated tools (e.g., UMI-tools, fgbio, or similar) that can handle UMI error correction.
+Consensus Sequence Building:
+Build consensus sequences from reads within each UMI group to correct sequencing/PCR errors.
+Apply error thresholds (e.g., Hamming distance) to decide when reads should be collapsed.
+
+D. Variant Calling/Analysis
+Variant Detection:
+Call variants using tools optimized for low-frequency variant detection in cfDNA (e.g., Mutect2).
+Quantification:
+Count unique cfDNA molecules by using deduplicated UMI counts.
+Normalization:
+Normalize counts across samples using spike-in controls or internal standards.
+
+E. Data Evaluation and Validation
+Quality Metrics:
+Assess library complexity (UMI diversity, duplication rates), coverage uniformity, and target region coverage.
+LOB/LOD/LOQ Analysis:
+Compare spike-in control read counts to the known input concentrations to confirm that:
+The signal in blanks (LOB) is low.
+The lowest reliably detected concentration (LOD) is met.
+The quantification at low concentrations is reproducible (LOQ).
+Cross-Validation:
+Validate key variants or quantitative findings with orthogonal methods (e.g., digital PCR).
+Documentation and Reporting:
+Record all parameters, QC metrics, and validation results to support assay reliability and reproducibility.
+Key Considerations for cfDNA Detection
+Minimizing Contamination:
+Ensure rigorous sample handling to avoid genomic DNA contamination.
+Efficient UMI Integration:
+Early incorporation of UMIs (in the first PCR) is critical for tracking individual cfDNA molecules.
+PCR Optimization:
+Balance between sufficient amplification and avoiding over-amplification to maintain library complexity.
+Error Correction:
+Robust UMI-based error correction is essential to distinguish true low-frequency variants from PCR/sequencing errors.
+Validation and Sensitivity:
+Regularly perform LOB, LOD, and LOQ assessments using spike-in controls and replicates.
+Documentation:
+Keep detailed records of all experimental conditions and QC metrics to support clinical or research-grade validation.

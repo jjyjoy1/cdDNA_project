@@ -1,0 +1,31 @@
+# EasyBuild recipy for QIIME2
+# Author: Caspar van Leeuwen
+# SURFsara - The Netherlands
+
+easyblock = 'Conda'
+
+name = 'BioTools'
+version = '2023.01'
+
+homepage = 'https://anaconda.org'
+description = """BioTools used conda to install bioinformatics tools
+ from raw DNA sequencing data."""
+
+
+toolchain = SYSTEM
+
+builddependencies = [('Anaconda3', '2022.05')]
+
+environment_file = 'biotools-conda-2023.01.yml'
+
+
+sanity_check_paths = {
+    'files': ["bin/blastn", "bin/blastx", "bin/tblastn"],
+    'dirs': []
+}
+
+
+moduleclass = 'bio'
+
+
+

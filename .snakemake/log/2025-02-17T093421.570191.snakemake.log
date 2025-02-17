@@ -1,0 +1,6 @@
+InterpolationMissingOptionError in file /home/jjy/Documents/GitHubRepos/cfDNA_cfRNA_project/cfDNA_amplicons_prod_v2.smk, line 24:
+Bad value substitution: option 'amplicon_file' in section 'Files' contains an interpolation key 'ConfigPath' which is not a valid option name. Raw value: '${ConfigPath}/cfDNA_amplicons.csv'
+  File "/home/jjy/Documents/GitHubRepos/cfDNA_cfRNA_project/cfDNA_amplicons_prod_v2.smk", line 24, in <module>
+  File "/home/jjy/bin/Biotools/2024.1.1/lib/python3.8/configparser.py", line 799, in get
+  File "/home/jjy/bin/Biotools/2024.1.1/lib/python3.8/configparser.py", line 456, in before_get
+  File "/home/jjy/bin/Biotools/2024.1.1/lib/python3.8/configparser.py", line 507, in _interpolate_some

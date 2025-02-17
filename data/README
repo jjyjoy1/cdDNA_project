@@ -1,0 +1,52 @@
+The FASTQ file name contains critical information for downstream analysis, as defined in the sequencing sample sheet. The sample sheet is a key document that bridges wet lab experiments with dry lab data analysis. The file name reflects the sample and subsample layout in the NGS run.
+
+For example, in the data folder:
+    "cfDNA" represents the NGS assay type.
+    "sampleid1001" is the unique sample identifier. All FASTQ files with this name will have their results merged by the bioinformatics pipeline. This identifier is also linked to the LIMS (Laboratory Information Management System).
+    "1000" indicates the value of genome equivalents (GE), which represents the amount of loading material. This value is also used to normalize final results, such as calculating the number of ALFs (allelic fractions) per 1000 GE or measuring gene expression levels per 1000 GE.
+    "B2, B3..." refers to the position on the NGS 96-well plate. Typically, each sample is split into 3-10 subsamples and distributed across the plate.
+    "Indexxxx" represents the index used during the NGS run, which is crucial for the demultiplexing step.
+
+In each folder, usually contains positive and negative contro, due to cfDNA contains two run of PCR, so there are two negative control, one for amplcons PCR negative control, and another for Index PCR negative control.
+
+
+#I added the way to calcualte GE, it can be used, the new version of cfDNA used internal spike-in data ti replace using GE to nirmalize the final results. 
+
+##### 
+We calculate one ng genome 303 genome copies per 1 ng might be based on a slightly smaller genome size or adjusted for practical considerations.
+
+A genome equivalent (GE) is the amount of DNA contained in a single copy of an organism's haploid genome. For diploid human cells, the genome contains two copies (one from each parent), but calculations are often based on the haploid genome size.
+Key Calculations for Human DNA
+
+    Haploid Genome Size
+        The human haploid genome is about 3.1 billion base pairs (bp).
+        The average molecular weight of a base pair (bp) is ~650 Da (Daltons).
+
+    Mass of One Haploid Genome
+        The molecular weight of the haploid genome:
+        3.1×109 bp×650 Da/bp=2.02×1012 Da
+        3.1×109 bp×650 Da/bp=2.02×1012 Da
+        Converting Da to grams using Avogadro’s number (6.022×10236.022×1023 molecules/mol):
+        2.02×1012 Da6.022×1023≈3.3×10−12 g=3.3 pg
+        6.022×10232.02×1012 Da​≈3.3×10−12 g=3.3 pg
+        This means one haploid genome (1 GE) weighs ~3.3 pg.
+
+    Genome Copies per Nanogram (ng) of DNA
+        Since 1 ng = 1000 pg, the number of genome copies in 1 ng is:
+        1000 pg3.3 pg/genome≈303 genome copies
+        3.3 pg/genome1000 pg​≈303 genome copies
+        Often rounded to ~330 genome copies per ng for convenience.
+
+Why is This Important?
+
+    Library Preparation for NGS:
+        NGS protocols often specify DNA input amounts in ng or genome equivalents to ensure optimal sequencing efficiency.
+        Example: If a protocol requires 1,000 genome equivalents, you would need:
+        1000 genomes×3.3 pg/genome1000=3.3 ng of DNA
+        10001000 genomes×3.3 pg/genome​=3.3 ng of DNA
+
+    Droplet Digital PCR (ddPCR) and qPCR Quantification:
+        Genome equivalents help standardize the quantification of target DNA, particularly in copy number variation (CNV) studies.
+
+    Microbial and Metagenomic Studies:
+        This concept is also used to estimate microbial genome copy numbers in mixed samples.  

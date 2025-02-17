@@ -1,0 +1,45 @@
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - blast
+  - bowtie2
+  - bzip2
+  - curl
+  - cutadapt
+  - hdf5
+  - hmmer
+  - ipython
+  - perl
+  - python=3.8
+  - samtools
+  - bamtools
+  - bedtools
+  - vcftools
+  - bcftools
+  - bwa
+  - bwa-mem2
+  - fastqc 
+  - fastp 
+  - trimmomatic
+  - java-jdk
+  - rust-bio-tools
+  - multiqc
+  - fgbio
+  - gatk4
+  - picard
+  - mafft
+  - primer3-py
+  - fastx_toolkit
+  - umi_tools
+  - star
+  - htseq
+  - biopython
+  - hisat2
+  - seqtk
+  - bedops
+  - snakemake
+  
+
+

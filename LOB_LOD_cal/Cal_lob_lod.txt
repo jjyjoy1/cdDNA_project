@@ -1,0 +1,82 @@
+Calculation of Limit of Blank (LoB) and Limit of Detection (LoD) in an NGS NDA Production Pipeline
+1. Overview
+
+The Limit of Blank (LoB) and Limit of Detection (LoD) are critical analytical sensitivity parameters in an NGS-based test validation pipeline. Their calculation follows a statistical approach based on control samples and low-level analyte detection. These values help define variant calling thresholds and ensure the assay’s ability to distinguish true signals from background noise.
+2. Calculation of LoB and LoD
+Step 1: Define Experimental Setup
+
+To determine LoB and LoD, perform sequencing experiments using:
+
+    Blank Samples (Negative Controls) – No target analyte present, used to assess background noise.
+    Low-Concentration Positive Samples – Dilution series containing low amounts of target variants to estimate the lowest detectable level.
+
+Step 2: Calculate the Limit of Blank (LoB)
+
+LoB is the highest background signal expected when no target analyte is present.
+To calculate LoB:
+
+    Run multiple blank (negative control) samples.
+    Measure background noise, such as false-positive read counts or non-specific sequencing errors.
+    Statistical Calculation:
+
+        Determine the mean (μB) and standard deviation (σB) of background signals from blank samples.
+
+        Use the formula:
+        LoB=μB+1.645×σB
+        LoB=μB​+1.645×σB​
+
+        The 1.645 factor represents the 95th percentile confidence level.
+
+Step 3: Calculate the Limit of Detection (LoD)
+
+LoD is the lowest target concentration that can be reliably detected above the LoB.
+To determine LoD:
+
+    Run multiple replicates of low-concentration target samples (e.g., serial dilutions of DNA/RNA).
+    Measure signal response (e.g., variant allele frequency (VAF), read depth, or coverage).
+    Statistical Calculation:
+
+        Determine the mean signal (μD) and standard deviation (σD) from low-level positive samples.
+
+        Use the formula:
+        LoD=LoB+1.645×σD
+        LoD=LoB+1.645×σD​
+
+        Alternatively, LoD can be empirically defined as the lowest concentration at which 95% of replicates detect the target variant.
+
+3. Application in NGS Assay Development
+
+    Variant Calling Sensitivity – Adjust variant calling thresholds based on LoB/LoD to minimize false positives.
+    Read Depth Considerations – Ensure LoD meets sequencing depth and allele fraction requirements.
+    Cross-validation with Clinical Samples – Compare LoD against actual patient samples to confirm clinical relevance.
+    Quality Control Integration – Use LoB/LoD thresholds in bioinformatics pipelines to filter low-confidence variant calls.
+
+4. Example Calculation for an NGS Assay
+Example 1: LoB Calculation
+
+    Run 20 blank control samples.
+
+    Measure background noise in each sample.
+
+    Compute the mean (μB) = 3 reads, standard deviation (σB) = 2 reads.
+
+    LoB calculation:
+    LoB=3+(1.645×2)=6.29≈6 (rounded)
+    LoB=3+(1.645×2)=6.29≈6 (rounded)
+
+Example 2: LoD Calculation
+
+    Run 20 low-concentration positive samples.
+
+    Measure target variant signal in each sample.
+
+    Compute the mean (μD) = 15 reads, standard deviation (σD) = 5 reads.
+
+    LoD calculation:
+    LoD=6+(1.645×5)=14.23≈14 reads (rounded)
+    LoD=6+(1.645×5)=14.23≈14 reads (rounded)
+
+Thus, any variant call above 14 reads would be considered reliably detectable in this assay.
+5. Conclusion
+
+The calculation of LoB and LoD in an NGS production pipeline ensures the analytical sensitivity of the assay and is crucial for regulatory compliance, quality control, and bioinformatics variant filtering. These values help to define the minimum variant detection threshold and optimize pipeline performance for accurate mutation detection.

@@ -1,0 +1,20 @@
+#Download references sequences from ENSEMBL 
+wget https://ftp.ensembl.org/pub/grch37/release-113/fasta/homo_sapiens/dna/Homo_sapiens.GRCh37.dna_sm.primary_assembly.fa.gz
+
+#Extract target bed file information from config file
+awk 'BEGIN {FS=":"; OFS="\t"} NR>1 {split($3, a, "-"); start=a[1]-1; end=a[2]; strand=($4==1 ? "+" : "-"); print $2, start, end, $0, ".", strand}' input_coordinates.txt > regions.bed
+
+# Uncompress the reference genome (if needed)
+gunzip Homo_sapiens.GRCh37.dna.primary_assembly.fa.gz
+
+# Index the FASTA file
+samtools faidx Homo_sapiens.GRCh37.dna.primary_assembly.fa
+
+bedtools getfasta \
+  -fi /home/jjy/Documents/GitHubRepos/cfDNA_cfRNA_project/Ref/Homo_sapiens/Ensembl/GRCh37/Sequence/WholeGenomeFasta/Homo_sapiens.GRCh37.dna.primary_assembly.fa \
+  -bed /home/jjy/Documents/GitHubRepos/cfDNA_cfRNA_project/Ref/cfDNA_amplicons.bed  \
+  -fo cfDNA_amplicons.fasta \
+  -s \          # Use strand information (reverse-complement for "-")
+  -name         # Use the BED "name" column (original coordinates) in FASTA headers
+
+
